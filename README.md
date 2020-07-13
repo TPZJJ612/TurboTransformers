@@ -29,7 +29,14 @@ git clone https://github.com/Tencent/TurboTransformers --recursive
 ```
 1. build docker images and containers on your machine.
 ```
+export http_proxy=....(optional)
+export https_proxy=....(optional)
+export no_proxy=.....(optional)
+
 sh tools/build_docker_cpu.sh
+
+docker run -it --rm -v $YourPath/TurboTransformers:/workspace --name=turboTransformer thufeifeibear/turbo_transformers:0.3.1-release   /bin/bash
+
 # optional:
 If you want to compare the performance of onnxrt-mkldnn during benchmark, you need to set BUILD_TYPE=dev to compile onnxruntime into the docker image, as follows
 env BUILD_TYPE=dev sh tools/build_docker_cpu.sh
@@ -47,6 +54,7 @@ Method 2：I do not want to unitest
 cd /workspace
 mkdir -p build && cd build
 cmake .. -DWITH_GPU=OFF
+make 
 pip install -r `find . -name *whl`
 ```
 3. Run benchmark (optional) in docker, compare with pytorch, torch-JIT, onnxruntime
